@@ -30,8 +30,8 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'digital', 'is_active']
-    list_editable = ['is_active']
+    list_display = ['name', 'digital']
+    list_editable = ['digital']
     search_fields = ['name', ]
     prepopulated_fields = {'slug': ('name',)}
     save_on_top = True

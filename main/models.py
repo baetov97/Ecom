@@ -41,10 +41,9 @@ class Product(models.Model):
     name = models.CharField(verbose_name=_('name'), max_length=200, null=True)
     description = models.TextField(verbose_name=_('description'))
     price = models.DecimalField(verbose_name=_('price'), max_digits=7, decimal_places=2)
-    digital = models.BooleanField(verbose_name=_('digital of product'), default=False, null=True, blank=True)
+    digital = models.BooleanField(default=False, verbose_name=_('digital of product'))
     image = models.ImageField(upload_to='images', verbose_name=_('image'), null=True, blank=True)
     slug = models.SlugField(verbose_name=_('slug field'), max_length=256, db_index=True)
-    is_active = models.BooleanField('active', default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

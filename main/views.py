@@ -12,13 +12,14 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 class HomeView(TemplateView):
-    template_name = 'main/main.html'
+    template_name = 'main/store.html'
 
     def get(self, request, *args, **kwargs):
         data = cartData(request)
         cartItems = data['cartItems']
 
         products = Product.objects.all()
+        print(products)
         context = {'products': products, 'cartItems': cartItems}
         return render(request, self.template_name, context)
 
@@ -70,7 +71,7 @@ class UpdateItemView(View):
         print('Action:', action)
         print('Product:', productId)
 
-        customer = request.user.customer
+        customer = request.user
         product = Product.objects.get(id=productId)
 
         order, created = Order.objects.get_or_create(customer=customer, complete=False)

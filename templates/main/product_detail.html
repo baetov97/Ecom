@@ -1,0 +1,48 @@
+{% extends 'main/main.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 p-4">
+                <img src="{{ product.image.url }}" class="" alt="" style="width:500px">
+            </div>
+            <div class="col-5">
+                <h3>
+                    <a href=""></a></h5>
+                    <h4>Description:</h4>
+                    <a href=""></a>
+                    <h3>{{ product.name }}</h3></br>
+                    <h3>${{ product.price }}</h3></br>
+                    <button data-product={{ product.id }} data-action="add"
+                            class="btn btn-outline-secondary add-btn update-cart">
+                        Add to Cart
+                    </button>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <form action="{% url 'add_review' product.pk %}" method="post">
+            {% csrf_token %}
+            {{ form.text }}
+            <input type="submit" value="Send">
+        </form>
+        <div class="row">
+            {% for review in product.reviews.all %}
+                <div class="col-xs-6 p-4">
+                    <img src="" class="" alt="" style="width:500px">
+                </div>
+                <div class="col-5">
+                    <h3>
+                        <a href=""></a></h5>
+                        <h4>{{ review.published }}</h4>
+                        <a href=""></a>
+                        <h3>{{ review.text }}</h3></br>
+                        <h3>{{ review.customer.name }}</h3></br>
+                    </h3>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

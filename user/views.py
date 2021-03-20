@@ -1,0 +1,18 @@
+from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
+from django.contrib.auth.forms import UserCreationForm
+
+
+class SignUp(TemplateView):
+    template_name = 'user/signup.html'
+
+    def get(self, request, *args, **kwargs):
+        form = UserCreationForm()
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user:login')

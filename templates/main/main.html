@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load header_tags %}
 <html>
 <head>
     <title>Ecom</title>
@@ -81,7 +82,7 @@
         <a href="{% url 'cart' %}">
             <img id="cart-icon" src="{% static 'images/cart.png' %}">
         </a>
-        <p id="cart-total">{{ cartItems }}</p>
+        <p id="cart-total">{% get_cart_count %}</p>
 
         </div>
     </div>

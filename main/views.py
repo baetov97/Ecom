@@ -15,12 +15,9 @@ class HomeView(TemplateView):
     template_name = 'main/store.html'
 
     def get(self, request, *args, **kwargs):
-        data = cartData(request)
-        cartItems = data['cartItems']
-
         products = Product.objects.all()
         print(products)
-        context = {'products': products, 'cartItems': cartItems}
+        context = {'products': products}
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -68,9 +65,6 @@ class UpdateItemView(View):
         data = json.loads(request.body)
         productId = data['productId']
         action = data['action']
-        print('Action:', action)
-        print('Product:', productId)
-
         customer = request.user
         product = Product.objects.get(id=productId)
 
@@ -159,14 +153,3 @@ class AddReview(View):
             form.product = product
             form.save()
         return redirect(product.get_absolute_url())
-
-
-#####################TESTING
-def profile(request):
-    data = {
-        'name': 'Nurgazy',
-        'location': 'Kyrgyzstan',
-        'is_active': True,
-        'count': 28
-    }
-    return JsonResponse(data)

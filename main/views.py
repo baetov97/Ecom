@@ -150,7 +150,7 @@ class AddReview(View):
         return render(request, 'main/product_detail.html', context)
 
     def post(self, request, pk):
-        customer = request.user.customer
+        customer = request.user
         product = Product.objects.get(id=pk)
         form = ReviewForm(request.POST)
         if form.is_valid():

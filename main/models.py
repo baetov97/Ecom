@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.utils.translation import get_language, gettext_lazy as _
 from django_resized import ResizedImageField
+from django.contrib.contenttypes.models import ContentType
 
 
 class Category(models.Model):
@@ -128,7 +129,7 @@ class ShippingAddress(models.Model):
 
 class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'), related_name="reviews",
-                             on_delete=models.CASCADE)
+                             on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, verbose_name=_('product'), related_name="reviews", on_delete=models.CASCADE)
     text = models.TextField(verbose_name=_('text'))
     parent = models.ForeignKey('self', verbose_name=_('parent'), related_name='children', on_delete=models.SET_NULL,

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
@@ -19,5 +20,15 @@ class SignUp(TemplateView):
             form.save()
             return redirect('user:login')
 
-class UserUpdateView(UpdateView):
-    model = User
+
+class UserUpdateView(LoginRequiredMixin, TemplateView):
+    template_name = 'user/update.html'
+
+    def get(self, request, *args, **kwargs):
+        current_user = request.user
+        context = {'current_user': current_user}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)

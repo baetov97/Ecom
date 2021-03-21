@@ -73,7 +73,7 @@
         </form>
         {% if request.user.is_authenticated %}
             <div class="form-inline my-2 my-lg-0">
-            <a href="#" class="btn btn-light">{{ user.username }}</a>
+            <a href="{% url 'user:user_update' user.pk %}" class="btn btn-light">{{ user.username }}</a>
             <a href="{% url 'user:logout' %}" class="btn btn-warning">Logout</a>
         {% else %}
             <a href="{% url 'user:login' %}" class="btn btn-warning">Login</a>

@@ -19,7 +19,7 @@ class User(AbstractUser):
         verbose_name_plural = _('users')
 
     def __str__(self):
-        return self.username or self.email
+        return self.username
 
     def get_full_name(self):
         """

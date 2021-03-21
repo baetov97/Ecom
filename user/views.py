@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
+
+from user.models import User
 
 
 class SignUp(TemplateView):
@@ -16,3 +18,6 @@ class SignUp(TemplateView):
         if form.is_valid():
             form.save()
             return redirect('user:login')
+
+class UserUpdateView(UpdateView):
+    model = User

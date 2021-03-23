@@ -23,23 +23,6 @@
         {#            <input type="file" class="form-control" id="exampleFormControlInput1"#}
         {#                   value="{{ current_user.avatar }}">#}
         {#        </div>#}
-        <button class="btn btn-success update_button">Submit</button>
+        <button type="submit" class="btn btn-success update_button">Submit</button>
     </form>
 {% endblock %}
-<script type="text/javascript">
-    $('.update_button').on('click', function () {
-        $.ajax({
-            url: '/user/update/',
-            method: 'POST',
-            data: $('.update_profile').serialize(),
-            beforeSend: function () {
-                // things to do before submit
-            },
-            success: function (response) {
-                alert(response)
-            }
-        });
-        return false;
-
-    });
-</script>

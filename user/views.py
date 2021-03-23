@@ -31,6 +31,7 @@ class UserUpdateView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
+        print(request.POST.get)
         print('##############')
         print(request.POST.get('username'))
         return HttpResponse('User is updated')

@@ -151,3 +151,11 @@ class AuthUserAPIView(generics.GenericAPIView):
         user = User.objects.get(pk=request.data.pkp.pkpk)
         serializer = RegisterSerializer(user)
         return Response(serializer.data)
+
+
+class UpdateProfileView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    # permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UpdateUserSerializer
+    permission_classes = []
+

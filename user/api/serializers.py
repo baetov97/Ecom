@@ -167,3 +167,29 @@ class SetNewPasswordSerializer(serializers.Serializer):
         except DjangoUnicodeDecodeError:
             raise AuthenticationFailed('The reset link is invalid', 401)
         return super().validate(attrs)
+
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=User
+        fields = ['username', 'first_name', 'last_name']
+        extra_kwargs = {
+            'first_name': {'required': True},
+            'last_name': {'required': True},
+        }
+
+        def validate_username(self, value):
+            user = self.context['request'].user
+            if User.objects.exclude(pk=user.pk).filter(username=value).exists():
+                raise serializers.ValidationError({"username": "This username is already in use."})
+            return value
+
+        def update(self, instance, validated_data):
+            instance.first_name = validated_data['first_name']
+            instance.last_name = validated_data['last_name']
+            instance.username = validated_data['username']
+
+            instance.save()
+
+            return instance

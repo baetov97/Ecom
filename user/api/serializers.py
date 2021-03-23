@@ -41,7 +41,7 @@ class TokenPairObtainSerializer(serializers.Serializer):
         token = RefreshToken.for_user(user)
         token['first_name'] = user.first_name
         token['last_name'] = user.last_name
-        token['username']=user.email
+        token['username'] = user.email
         return token
 
     def validate(self, attrs):
@@ -79,6 +79,7 @@ class TokenRefreshSerializer(BaseRefreshSerializer):
     def create(self, validated_data):
         pass
 
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=6, write_only=True)
 
@@ -105,7 +106,6 @@ class EmailVerificationSerializer(serializers.ModelSerializer):
         model = User
         fields = ['token']
 
-
     email = serializers.EmailField(max_length=255, min_length=3)
     password = serializers.CharField(max_length=68, min_length=6, write_only=True)
     username = serializers.CharField(max_length=255, min_length=3, read_only=True)
@@ -130,10 +130,9 @@ class EmailVerificationSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed('Invalid credentials, try again')
         if not user.is_active:
             raise AuthenticationFailed('Account disabled, contact admin')
-        if not user.is_verified:
+        if not user.is_active:
             raise AuthenticationFailed('Email is not verified')
         return {'email': user.email, 'username': user.username, 'tokens': user.tokens()}
-        return super().validate(attrs)
 
 
 class ResetPasswordRequestSerializer(serializers.Serializer):
@@ -168,5 +167,3 @@ class SetNewPasswordSerializer(serializers.Serializer):
         except DjangoUnicodeDecodeError:
             raise AuthenticationFailed('The reset link is invalid', 401)
         return super().validate(attrs)
-
-

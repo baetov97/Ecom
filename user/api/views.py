@@ -19,7 +19,6 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from rest_framework import permissions
 from ..utils import Util
-from django.shortcuts import redirect
 from django.http import HttpResponsePermanentRedirect
 from django.conf import settings
 
@@ -82,6 +81,7 @@ class VerifyEmail(views.APIView):
 
 class RequestPasswordResetEmail(generics.GenericAPIView):
     serializer_class = ResetPasswordRequestSerializer
+    permission_classes = []
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -103,8 +103,13 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
         return Response({'success': "We have sent you a link to reset your password"})
 
 
+class CustomRedirect(HttpResponsePermanentRedirect):
+    allowed_schemes = [settings.APP_SCHEME, 'http', 'https']
+
+
 class PasswordTokenCheckAPI(generics.GenericAPIView):
     serializer_class = []
+    permission_classes = []
 
     def get(self, request, uidb64, token):
         redirect_url = request.GET.get('redirect_url')
@@ -129,6 +134,7 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
 
 class SetNewPasswordAPIView(generics.GenericAPIView):
     serializer_class = SetNewPasswordSerializer
+    permission_classes = []
 
     def patch(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)

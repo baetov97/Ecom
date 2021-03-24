@@ -39,6 +39,8 @@ class SubCategory(models.Model):
 
 
 class Product(models.Model):
+    subcategory = models.ForeignKey(SubCategory, verbose_name=_('subcategories'), on_delete=models.CASCADE,
+                                    related_name='products')
     name = models.CharField(verbose_name=_('name'), max_length=200, null=True)
     description = models.TextField(verbose_name=_('description'))
     price = models.DecimalField(verbose_name=_('price'), max_digits=7, decimal_places=2)

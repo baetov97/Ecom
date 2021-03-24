@@ -1,0 +1,25 @@
+<form class="update_profile">
+    {% csrf_token %}
+    <input type="text" name="username" value="{{ current_user.username }}">
+    <button class="submit_update">Save changes</button>
+</form>
+<!-- So the current user username will be displayed on the input as a value -->
+
+<script>
+    $('.submit_update').on('click', function () {
+        $.ajax({
+            url: '/user/update_profile/',
+            method: 'POST',
+            data: $('.update_profile').serialize(),
+            beforeSend: function () {
+                // things to do before submit
+            },
+            success: function (response) {
+
+                alert(response)
+            }
+        });
+        return false;
+
+    });
+</script>

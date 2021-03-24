@@ -76,3 +76,13 @@ class UserUpdateView(LoginRequiredMixin, TemplateView):
         print('##############')
         print(request.POST.get('username'))
         return HttpResponse('User is updated')
+
+
+def ProfileUpdate(request):
+    current_user = request.user
+    if request.method == 'POST':
+        get_username = request.POST.get('username', '').strip()
+        User.objects.filter(pk=current_user.pk).update(username=get_username)
+        return HttpResponse('Profile Updated')
+    else:
+        return render(request, 'user/update_test.html', {'current_user': current_user})

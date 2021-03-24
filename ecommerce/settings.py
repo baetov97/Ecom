@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'rest_framework',
     'drf_yasg',
+    'django_celery_beat',
     'main.apps.MainConfig',
     'user.apps.UserConfig',
 ]
@@ -174,3 +175,9 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 APP_SCHEME = 'ecommerce'
+
+# CELERY SETTINGS
+CELERY_BROKER_URL = "amqp://localhost"
+CELERY_TIMEZONE = "Asia/Bishkek"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60

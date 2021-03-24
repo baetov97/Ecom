@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, UpdateView
@@ -72,17 +72,12 @@ class UserUpdateView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST.get)
-        print('##############')
-        print(request.POST.get('username'))
-        return HttpResponse('User is updated')
-
-
-def ProfileUpdate(request):
-    current_user = request.user
-    if request.method == 'POST':
-        get_username = request.POST.get('username', '').strip()
-        User.objects.filter(pk=current_user.pk).update(username=get_username)
-        return HttpResponse('Profile Updated')
-    else:
-        return render(request, 'user/update_test.html', {'current_user': current_user})
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        user = User.objects.get(email=request.user.email)
+        user.first_name = first_name
+        user.last_name = last_name
+        user.username = username
+        user.save()
+        return JsonResponse({})

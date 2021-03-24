@@ -1,21 +1,21 @@
 {% extends 'main/main.html' %}
 {% load static %}
 {% block content %}
-    <form class="update_profile">
+    <form method="POST" action="" id="user-form">
         {% csrf_token %}
         <div class="form-group">
             <label for="exampleInputEmail1">First name</label>
-            <input type="text" name="first_name" class="form-control" id="exampleFormControlInput1"
+            <input type="text" name="first_name" class="form-control" id="first_name"
                    value="{{ current_user.first_name }}">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Last name</label>
-            <input type="text" name="last_name" class="form-control" id="exampleFormControlInput1"
+            <input type="text" name="last_name" class="form-control" id="last_name"
                    value="{{ current_user.last_name }}">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Username</label>
-            <input type="text" name="username" class="form-control" id="exampleFormControlInput1"
+            <input type="text" name="username" class="form-control" id="username"
                    value="{{ current_user.username }}">
         </div>
         {#        <div class="form-group">#}
@@ -26,3 +26,26 @@
         <button type="submit" class="btn btn-success update_button">Submit</button>
     </form>
 {% endblock %}
+<script>
+    $('#user-form').on('submit', function (event) {
+        event.preventDefault();
+        console.log("Form submitted!")
+        update_user();
+    })
+
+    function update_user() {
+        console.log('Update user');
+        const first_name = document.getElementById('first_name');
+        const last_name = document.getElementById('last_name');
+        const username = document.getElementById('username');
+        $.ajax({
+            url: "user/update_user/",
+            type: "POST",
+            data: {first_name: first_name, last_name: last_name, username: username},
+            success: function (json) {
+                console.log(json); // log the returned json to the console
+                console.log("success"); // another sanity check
+            },
+        })
+    }
+</script>

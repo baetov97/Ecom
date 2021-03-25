@@ -1,7 +1,7 @@
 {% extends 'main/main.html' %}
 {% load static %}
 {% block content %}
-    <form method="POST" action="" id="user-form">
+    <div id="user-form">
         {% csrf_token %}
         <div class="form-group">
             <label for="exampleInputEmail1">First name</label>
@@ -24,28 +24,9 @@
         {#                   value="{{ current_user.avatar }}">#}
         {#        </div>#}
         <button type="submit" class="btn btn-success update_button">Submit</button>
-    </form>
+    </div>
 {% endblock %}
-<script>
-    $('#user-form').on('submit', function (event) {
-        event.preventDefault();
-        console.log("Form submitted!")
-        update_user();
-    })
-
-    function update_user() {
-        console.log('Update user');
-        const first_name = document.getElementById('first_name');
-        const last_name = document.getElementById('last_name');
-        const username = document.getElementById('username');
-        $.ajax({
-            url: "user/update_user/",
-            type: "POST",
-            data: {first_name: first_name, last_name: last_name, username: username},
-            success: function (json) {
-                console.log(json); // log the returned json to the console
-                console.log("success"); // another sanity check
-            },
-        })
-    }
-</script>
+{% block extrajs %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/update_user.js' %}"></script>
+{% endblock %}

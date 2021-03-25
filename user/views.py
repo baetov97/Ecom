@@ -80,4 +80,4 @@ class UserUpdateView(LoginRequiredMixin, TemplateView):
         user.last_name = last_name
         user.username = username
         user.save()
-        return JsonResponse({})
+        return JsonResponse({'user': 'Successfully updated'}, status=200)
